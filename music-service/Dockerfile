@@ -1,9 +1,14 @@
 FROM python:3.10-slim
 
-# system libs nodig voor audiocraft / ffmpeg
+WORKDIR /app
+
+# 🔥 Dit is de missing piece
 RUN apt-get update && apt-get install -y \
     ffmpeg \
-    git \
+    libsndfile1 \
+    build-essential \
+    gcc \
+    g++ \
     pkg-config \
     libavformat-dev \
     libavcodec-dev \
@@ -14,9 +19,8 @@ RUN apt-get update && apt-get install -y \
     libswresample-dev \
     && rm -rf /var/lib/apt/lists/*
 
-WORKDIR /app
-
 COPY requirements.txt .
+
 RUN pip install --upgrade pip
 RUN pip install -r requirements.txt
 
