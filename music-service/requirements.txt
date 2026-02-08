@@ -1,14 +1,17 @@
---extra-index-url https://download.pytorch.org/whl/cpu
-
 fastapi
 uvicorn
 
+# PyTorch CPU stack
 torch==2.1.0+cpu
 torchaudio==2.1.0+cpu
 torchvision==0.16.0+cpu
 torchtext==0.16.0
 
+# Transformers
 transformers==4.39.3
-av==14.0.1 --only-binary=:all:
 
-git+https://github.com/facebookresearch/audiocraft.git --no-deps
+# PyAV (werkt met nieuwe ffmpeg)
+av==14.0.1
+
+# Audiocraft (zonder deps, installeren we later in Dockerfile)
+git+https://github.com/facebookresearch/audiocraft.git
