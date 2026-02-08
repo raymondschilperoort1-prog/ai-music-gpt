@@ -1,31 +1,30 @@
-FROM python:3.10-bullseye
+FROM python:3.10-slim
 
 WORKDIR /app
 
-# juiste ffmpeg stack voor audiocraft / pyav
+# system deps voor ffmpeg + audio
 RUN apt-get update && apt-get install -y \
     ffmpeg \
     libsndfile1 \
-    build-essential \
-    gcc \
-    g++ \
-    pkg-config \
-    libavformat-dev \
-    libavcodec-dev \
-    libavdevice-dev \
-    libavutil-dev \
-    libavfilter-dev \
-    libswscale-dev \
-    libswresample-dev \
+    git \
     && rm -rf /var/lib/apt/lists/*
 
 COPY requirements.txt .
 
 RUN pip install --upgrade pip setuptools wheel
 
-RUN pip install --no-cache-dir -r requirements.txt --no-deps
-RUN pip install --no-cache-dir git+https://github.com/facebookresearch/audiocraft.git --no-deps
+# eerst normale deps
+RUN pip install --no-cache-dir -r requirements.txt
 
+# DAN PyTorch via officiële CPU index
+RUN pip install --no-cache-dir \
+    torch==2.1.0 \
+    torchaudio==2.1.0 \
+    torchvision==0.16.0 \
+    --index-url https://download.pytorch.org/whl/cpu
+
+# DAN Audiocraft zonder dependency resolver drama
+RUN pip install --no-cache-dir git+https://github.com/facebookresearch/audiocraft.git --no-deps
 
 COPY . .
 
