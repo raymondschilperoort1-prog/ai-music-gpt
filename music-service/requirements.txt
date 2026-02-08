@@ -1,15 +1,9 @@
 fastapi
 uvicorn
 
-# 👇 CPU versie van torch (BELANGRIJK!)
 torch==2.1.0+cpu
 torchaudio==2.1.0+cpu
 --extra-index-url https://download.pytorch.org/whl/cpu
 
 transformers==4.39.3
-
-# 👇 pin Audiocraft stack zodat resolver stopt met backtracking
-audiocraft==1.3.0
-av==10.0.0
-
 soundfile
