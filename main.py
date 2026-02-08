@@ -16,22 +16,23 @@ def home():
 
 @app.post("/generate-lyrics")
 def generate_lyrics(data: SongPrompt):
+    try:
+        response = requests.post(
+            "https://api.openai.com/v1/chat/completions",
+            headers={
+                "Authorization": f"Bearer {OPENAI_API_KEY}",
+                "Content-Type": "application/json"
+            },
+            json={
+                "model": "gpt-4o-mini",
+                "messages": [
+                    {"role":"system","content":"You write professional song lyrics."},
+                    {"role":"user","content":data.prompt}
+                ]
+            }
+        )
 
-    response = requests.post(
-        "https://api.openai.com/v1/chat/completions",
-        headers={
-            "Authorization": f"Bearer {OPENAI_API_KEY}",
-            "Content-Type": "application/json"
-        },
-        json={
-            "model": "gpt-4o-mini",
-            "messages": [
-                {"role":"system","content":"You write professional song lyrics."},
-                {"role":"user","content":data.prompt}
-            ]
-        }
-    )
+        return response.json()
 
-    lyrics = response.json()["choices"][0]["message"]["content"]
-
-    return {"lyrics": lyrics}
+    except Exception as e:
+        return {"error": str(e)}
