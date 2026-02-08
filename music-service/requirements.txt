@@ -11,4 +11,4 @@ torchtext==0.16.0
 transformers==4.39.3
 av==14.0.1 --only-binary=:all:
 
-git+https://github.com/facebookresearch/audiocraft.git
+git+https://github.com/facebookresearch/audiocraft.git --no-deps
