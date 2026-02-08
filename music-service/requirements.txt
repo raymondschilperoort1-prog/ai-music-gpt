@@ -2,3 +2,6 @@ fastapi
 uvicorn
 transformers==4.39.3
 av==14.0.1
+soundfile
+librosa
+einops
