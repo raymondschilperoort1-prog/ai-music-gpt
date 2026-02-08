@@ -23,7 +23,9 @@ COPY requirements.txt .
 
 RUN pip install --upgrade pip setuptools wheel
 
-RUN pip install --no-cache-dir -r requirements.txt
+RUN pip install --no-cache-dir -r requirements.txt --no-deps
+RUN pip install --no-cache-dir git+https://github.com/facebookresearch/audiocraft.git --no-deps
+
 
 COPY . .
 
